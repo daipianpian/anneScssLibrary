@@ -1,0 +1,67 @@
+@charset "UTF-8";
+/**
+ * color.scss
+ * @authors Anne (dai_pianpian@126.com)
+ * @date    2019-04-09 23:58:28
+ * @version $1.0.0$
+ */
+$color-default: #494949;
+$color-main: #409EFF;
+$color-assist: #F0F2F5; 
+$color-white: #ffffff;
+$color-black: #333333;
+$color-gray: #666666;
+$color-lightgrey: #f6f6f6;
+$color-gray-medium: #999999;
+$color-gray-silver: #C0C0C0; // 次要按钮边框+输入框中提示文字
+$color-gray-light: #E5E5E5; // 分割线+边框
+$color-success: #67C23A;
+$color-warning: #E6A23C;
+$color-danger: #F56C6C;
+$color-info: #909399;
+
+// 字体颜色
+@each $fontcolor-name, $color in 
+		(fontcolor-default, $color-default),
+        (fontcolor-main, $color-main),
+        (fontcolor-assist, $color-assist),
+        (fontcolor-white, $color-white),
+        (fontcolor-black, $color-black),
+        (fontcolor-gray, $color-gray),
+        (fontcolor-lightgrey, $color-lightgrey),
+        (fontcolor-gray-medium, $color-gray-medium),
+        (fontcolor-gray-silver, $color-gray-silver),
+        (fontcolor-success, $color-success),
+        (fontcolor-warning, $color-warning),
+        (fontcolor-danger, $color-danger),
+        (fontcolor-info, $color-info) {
+		.#{$fontcolor-name} {
+			color: $color;
+		}
+}
+
+// 背景颜色
+@each $bg-name, $color in 
+	(bg-main, $color-main),
+	(bg-assist, $color-assist),
+	(bg-lightgrey, $color-lightgrey),
+    (bg-white, $color-white),
+    (bg-success, $color-success),
+    (bg-warning, $color-warning),
+    (bg-danger, $color-danger),
+    (bg-info, $color-info) {
+	.#{$bg-name} {
+		background-color: $color;
+	}
+}
+
+// 边框背景颜色
+@each $bd-name, $color in 
+		(bd-white, $color-white),
+        (bd-lightgrey, $color-lightgrey) {
+		.#{$bd-name} {
+			$bd-name: 1px solid $color;
+		}
+}
+
+
