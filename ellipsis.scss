@@ -1,0 +1,15 @@
+@charset "UTF-8";
+/**
+ * ellipsis.scss (省略号)
+ * @authors Your Name (you@example.org)
+ * @date    2019-04-10 18:56:45
+ * @version $Id$
+ */
+@mixin ellipsis(lineNum) {
+    overflow:hidden;-ms-text-overflow:ellipsis;text-overflow:ellipsis; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp: lineNum;
+}
+
+// 调用方式
+/* .demo {
+    font-size: @include ellipsis(1);
+} */

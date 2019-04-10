@@ -1,0 +1,22 @@
+@charset "UTF-8";
+/**
+ * float.scss
+ * @authors Anne (dai_pianpian@126.com)
+ * @date    2019-04-10 18:40:46
+ * @version $1.0.0$
+ */
+
+@mixin float($float){
+	@if $float == left {float:left;}
+	@else if $float == right {float: right;}
+	@else {
+		*zoom: 1;
+	　　&:after{content: "";display: table;clear: both;}
+	}
+}
+
+// 调用方式
+/* .demo {
+    font-size: @include float(left);
+} */
+
