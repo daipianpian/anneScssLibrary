@@ -1,18 +1,18 @@
 @charset "UTF-8";
 /**
- * arrows.scss
+ * border.scss
  * @authors Anne (dai_pianpian@126.com)
  * @date    2019-04-10 18:53:11
  * @version $Id$
  */
 
 /* 箭头
-arrow(direction,
+triangle(direction,
 size,
 color);
 使用纯CSS现实三角形，兼容所有浏览器；使用了三个参数，第一个是"方向"，第二个是"大小"，第三个是"颜色"
 */
-@mixin arrow($direction,
+@mixin triangle($direction,
 $size,
 $color) {
     width: 0;
@@ -48,3 +48,16 @@ $color) {
 /* .arrow{
    @include arrow(bottom,10px,#F00);//向下，10px大小，红色箭头，立马出现  使用@include导入
 } */
+
+
+/* 圆角 */
+@mixin roundedBase($argus){
+  -moz-border-radius: 1px*$argus;
+  -webkit-border-radius: 1px*$argus;
+  border-radius: 1px*$argus;
+}
+@mixin rounded($top,$right,$bottom,$left){
+  -moz-border-radius: $top*1px $right*1px $bottom*1px $left*1px;
+  -webkit-border-radius:$top*1px $right*1px $bottom*1px $left*1px;
+  border-radius: $top*1px $right*1px $bottom*1px $left*1px;
+}

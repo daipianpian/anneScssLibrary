@@ -1,0 +1,243 @@
+@charset "UTF-8";
+/**
+ * main.scss
+ * @authors Anne (dai_pianpian@126.com)
+ * @date    2019-04-11 00:45:56
+ * @version $1.0.0$
+ */
+
+/* 实现css水平垂直居中 start */
+@mixin center-ele($width:null,$height:null){
+    position: absolute;
+            top: 50%;
+            left: 50%;
+    @if $width and $height {
+            // do margin
+            width: $width;
+            height: $height;
+            margin: -($height / 2) #{0 0} -($width / 2);   //这里如果直接写 0 0 他会编译为 margin: xx 0 xx 而不是 margin：xx 0 0 xx，所以用 #{0 0}
+
+    } @else if not $width and not $height {
+            // do transform translate(-50%,-50%)
+            transform: translate(-50%,-50);
+    } @else if not $width {
+            // do margin-top and transform translateX
+            height: $height;
+            margin-top: -($height / 2);
+            transform: translateX(-50%); 
+    } @else {
+            // do margin-left and transform translateY
+            width: $width;
+            margin-top: -($width / 2);
+            transform: translateY(-50%); 
+    }
+}
+/* 实现css水平垂直居中 end */
+
+/*================以下是center调用方式==============*/
+@charset "UTF-8";
+/**
+ * 为子元素设定定位上下文
+ */
+.parent {
+  position: relative;
+}
+
+/**
+ * 让子元素绝对居中于父容器
+ * 没有向 Sass mixin 传递宽和高，使用 CSS transform 属性实现居中效果
+ */
+.child-with-unknown-direction {
+    @include center;
+}
+
+/**
+ * 让子元素绝对居中于父容器
+ * 向 Sass mixin 传递了宽度，所以就使用负向 margin 处理水平位置，
+ * 使用 CSS transform translateY 处理垂直位置 
+ */
+.child-with-known-width {
+    @include center(400px);
+}
+
+/**
+ * 让子元素绝对居中于父容器
+ * 向 Sass mixin 传递了高度，所以就使用负向 margin 处理垂直位置，
+ * 使用 CSS transform translateX 处理水平位置 
+ */
+.child-with-known-height {
+    @include center($height: 400px);
+}
+
+/**
+ * 让子元素绝对居中于父容器
+ * 向 Sass mixin 传递了高度和宽度，所以就使用负向 margin 处理水平和垂直位置
+ */
+.child-with-known-direction {
+    @include center(400px, 400px);
+}
+
+
+
+/*
+	使用 Flexbox 需要为父容器设定相关样式，而使用前面的方法则主要是为子元素设定相关样式（当然，父容器需要被设定为除 static 之外的任意 position
+ */
+/*弹性盒子居中（传入null不设置该属性）*/
+@mixin flex-center($direction:row,$justify:center,$align:center,$flex-wrap: null) {
+  display: -webkit-flex;
+  display: flex;
+  @if ($direction!=null) {
+    flex-direction: $direction;
+  }
+  @if ($justify!=null) {
+    justify-content: $justify;
+  }
+  @if ($align!=null) {
+    align-items: $align;
+  }
+  @if ($flex-wrap != null) {
+    flex-wrap: $flex-wrap;
+  }
+}
+ 
+/*绝对定位  参数顺序：上右下左*/
+@mixin positionAbsolute($top:null,$right:null,$bottom:null,$left:null) {
+  position: absolute;
+  @if ($left!="" & & $left!=null) {
+    left: $left;
+  }
+  @if ($right!="" & & $right!=null) {
+    right: $right;
+  }
+  @if ($top!="" & & $top!=null) {
+    top: $top;
+  }
+  @if ($bottom!="" & & $bottom!=null) {
+    bottom: $bottom;
+  }
+}
+ 
+/*渐变(从上到下）*/
+@mixin linear-gradient($direction:bottom,$color1:transparent,$color2:#306eff,$color3:transparent) {
+  background: -o-linear-gradient($direction, $color1, $color2, $color3); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient($direction, $color1, $color2, $color3); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to $direction, $color1, $color2, $color3); /* 标准的语法 */
+}
+ 
+/* 行高 */
+@mixin line-height($height:30px,$line-height:30px) {
+  @if ($height != null) {
+    height: $height;
+  }
+  @if ($line-height!=null) {
+    line-height: $line-height;
+  }
+}
+ 
+/* 画三角形 */
+@mixin triangle($width:10px,$direction:top,$color:$bgBlueLight) {
+  border: $width solid transparent;
+  @if ($direction == top) { // 上三角
+    border-bottom-color: $color;
+  }
+  @if ($direction == bottom) { // 下三角
+    border-top-color: $color;
+  }
+  @if ($direction == left) { // 左三角
+    border-right-color: $color;
+  }
+  @if ($direction == right) { // 右三角
+    border-left-color: $color;
+  }
+}
+ 
+/* 文本阴影 */
+@mixin text-show($h-shadow:0px, $v-shadow:0px, $blur:10px, $color:rgba(0,180,255,0.7)) {
+  text-shadow: $h-shadow $v-shadow $blur $color;
+}
+ 
+/* 链接样式 */
+@mixin hoverStyle($style:(color:#d9fdff),$hoverStyle:(color:#306eff)) {
+  text-decoration: none;
+  @each $key, $value in $style {
+    #{$key}: #{$value};
+  }
+  @if ($hoverStyle!=null & & $hoverStyle!="") {
+    &:hover {
+      @each $key, $value in $hoverStyle {
+        #{$key}: #{$value};
+      }
+    }
+  }
+}
+ 
+/* 定义滚动条样式 圆角和阴影不需要则传入null */
+@mixin scrollBar($width:10px,$height:10px,$outColor:$bgColor,$innerColor:$bgGrey,$radius:5px,$shadow:null) {
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $height;
+    background-color: $outColor;
+  }
+ 
+  /*定义滚动条轨道 内阴影+圆角*/
+  &::-webkit-scrollbar-track {
+    @if ($shadow!=null) {
+      -webkit-box-shadow: $shadow;
+    }
+    @if ($radius!=null) {
+      border-radius: $radius;
+    }
+    background-color: $outColor;
+  }
+ 
+  /*定义滑块 内阴影+圆角*/
+  &::-webkit-scrollbar-thumb {
+    @if ($shadow!=null) {
+      -webkit-box-shadow: $shadow;
+    }
+    @if ($radius!=null) {
+      border-radius: $radius;
+    }
+    background-color: $innerColor;
+    border: 1px solid $innerColor;
+  }
+}
+ 
+/* css3动画 默认3s宽度到200px */
+@mixin animation($from:(width:0px),$to:(width:200px),$name:mymove,$animate:mymove 2s 1 linear infinite) {
+  -webkit-animation: $animate;
+  -o-animation: $animate;
+  animation: $animate;
+  @keyframes #{$name}
+  {
+    from {
+      @each $key, $value in $from {
+        #{$key}: #{$value};
+      }
+    }
+    to {
+      @each $key, $value in $to {
+        #{$key}: #{$value};
+      }
+    }
+  }
+ 
+  @-webkit-keyframes #{$name}
+  {
+    from {
+      @each $key, $value in $from {
+        $key: $value;
+      }
+    }
+    to {
+      @each $key, $value in $to {
+        $key: $value;
+      }
+    }
+  }
+}
+
+
+
+

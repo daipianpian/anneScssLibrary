@@ -1,0 +1,33 @@
+/**
+  * [定义 flex 布局]
+  */
+
+[flex] {
+  display: flex;
+  > {
+    * {
+      display: block;
+    }
+    [flex] {
+      display: flex;
+    }
+    [inline-flex] {
+      display: inline-flex;
+    }
+  }
+}
+
+[inline-flex] {
+  display: inline-flex;
+  > {
+    * {
+      display: block;
+    }
+    [flex] {
+      display: flex;
+    }
+    [inline-flex] {
+      display: inline-flex;
+    }
+  }
+}
