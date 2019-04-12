@@ -5,9 +5,19 @@
  * @date    2019-04-10 18:56:45
  * @version $Id$
  */
-@mixin ellipsis($lineNum:1,$width:100%,$display:block) {
-    width: $width;display: $display;overflow:hidden;-ms-text-overflow:ellipsis;text-overflow:ellipsis; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp: $lineNum;
+@mixin ellipsis($clamp: 1){
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @if($clamp == 1){
+        white-space: nowrap;
+    }@else{
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: $clamp;
+        -webkit-box-orient: vertical;
+    }
 }
+
 
 // 调用方式
 /* .demo {

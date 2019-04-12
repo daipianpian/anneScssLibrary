@@ -8,8 +8,8 @@
 /* $browser-default-font-size: 32px !default;//变量的值可以根据自己需求定义
 html {
     font-size: $browser-default-font-size;
-}
- */
+} */
+
 @function pxTorem($px, $browser-default-font-size: 32px){//$px为需要转换的字号
     @return $px / $browser-default-font-size * 1rem;
 }

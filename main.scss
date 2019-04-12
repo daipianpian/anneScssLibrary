@@ -6,79 +6,6 @@
  * @version $1.0.0$
  */
 
-/* 实现css水平垂直居中 start */
-@mixin center-ele($width:null,$height:null){
-    position: absolute;
-            top: 50%;
-            left: 50%;
-    @if $width and $height {
-            // do margin
-            width: $width;
-            height: $height;
-            margin: -($height / 2) #{0 0} -($width / 2);   //这里如果直接写 0 0 他会编译为 margin: xx 0 xx 而不是 margin：xx 0 0 xx，所以用 #{0 0}
-
-    } @else if not $width and not $height {
-            // do transform translate(-50%,-50%)
-            transform: translate(-50%,-50);
-    } @else if not $width {
-            // do margin-top and transform translateX
-            height: $height;
-            margin-top: -($height / 2);
-            transform: translateX(-50%); 
-    } @else {
-            // do margin-left and transform translateY
-            width: $width;
-            margin-top: -($width / 2);
-            transform: translateY(-50%); 
-    }
-}
-/* 实现css水平垂直居中 end */
-
-/*================以下是center调用方式==============*/
-@charset "UTF-8";
-/**
- * 为子元素设定定位上下文
- */
-.parent {
-  position: relative;
-}
-
-/**
- * 让子元素绝对居中于父容器
- * 没有向 Sass mixin 传递宽和高，使用 CSS transform 属性实现居中效果
- */
-.child-with-unknown-direction {
-    @include center;
-}
-
-/**
- * 让子元素绝对居中于父容器
- * 向 Sass mixin 传递了宽度，所以就使用负向 margin 处理水平位置，
- * 使用 CSS transform translateY 处理垂直位置 
- */
-.child-with-known-width {
-    @include center(400px);
-}
-
-/**
- * 让子元素绝对居中于父容器
- * 向 Sass mixin 传递了高度，所以就使用负向 margin 处理垂直位置，
- * 使用 CSS transform translateX 处理水平位置 
- */
-.child-with-known-height {
-    @include center($height: 400px);
-}
-
-/**
- * 让子元素绝对居中于父容器
- * 向 Sass mixin 传递了高度和宽度，所以就使用负向 margin 处理水平和垂直位置
- */
-.child-with-known-direction {
-    @include center(400px, 400px);
-}
-
-
-
 /*
 	使用 Flexbox 需要为父容器设定相关样式，而使用前面的方法则主要是为子元素设定相关样式（当然，父容器需要被设定为除 static 之外的任意 position
  */
@@ -204,40 +131,77 @@
   }
 }
  
-/* css3动画 默认3s宽度到200px */
-@mixin animation($from:(width:0px),$to:(width:200px),$name:mymove,$animate:mymove 2s 1 linear infinite) {
-  -webkit-animation: $animate;
-  -o-animation: $animate;
-  animation: $animate;
-  @keyframes #{$name}
-  {
-    from {
-      @each $key, $value in $from {
-        #{$key}: #{$value};
-      }
-    }
-    to {
-      @each $key, $value in $to {
-        #{$key}: #{$value};
-      }
-    }
-  }
- 
-  @-webkit-keyframes #{$name}
-  {
-    from {
-      @each $key, $value in $from {
-        $key: $value;
-      }
-    }
-    to {
-      @each $key, $value in $to {
-        $key: $value;
-      }
-    }
-  }
-}
 
+// 定位上下左右居中
+@mixin center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+ 
+// 定位上下居中
+@mixin centerV {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+ 
+// 定位左右居中
+@mixin centerH {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+ 
+// 宽高
+@mixin wh($width, $height){
+    width: $width;
+    height: $height;
+}
+ 
+// 宽高顶位置左位置
+@mixin whtl($width, $height, $top, $left){
+    width: $width;
+    height: $height;
+    top: $top;
+    left: $left;
+}
+ 
+// 宽高顶位置右位置
+@mixin whtr($width, $height, $top, $right){
+    width: $width;
+    height: $height;
+    top: $top;
+    right: $right;
+}
+ 
+// 宽高底位置左位置
+@mixin whbl($width, $height, $bottom, $left){
+    width: $width;
+    height: $height;
+    bottom: $bottom;
+    left: $left;
+}
+ 
+// 宽高底位置右位置
+@mixin whbr($width, $height, $bottom, $right){
+    width: $width;
+    height: $height;
+    bottom: $bottom;
+    right: $right;
+}
+ 
+// 字体大小、行高、字体
+@mixin font($size, $line-height, $family: 'Microsoft YaHei') {
+    font: #{$size}/#{$line-height} $family;
+}
+ 
+// 字体大小，颜色
+@mixin sc($size, $color){
+    font-size: $size;
+    color: $color;
+}
 
 
 

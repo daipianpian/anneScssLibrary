@@ -5,19 +5,37 @@
  * @date    2019-04-10 19:04:05
  * @version $1.0.0$
  */
-@mixin flex($flex, $flex-box) {
-	[$flex] {
-    display: flex;
-        &>* {
-            display: block;
-        }
-        &>[$flex]{
-            display: flex;
-        }
-    }
+$grid-columns: 12;
+@mixin generateGrid($size, $columns: $grid-columns) {
+  flex: 0 0 percentage($size / $columns);
+  max-width: percentage($size / $columns);
+}
+.row {
+  display: flex;
+}
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+@for $i from 1 through $grid-columns {
+  .col-#{$i} {
+    @include generateGrid($i, $grid-columns);
+  }
 }
 
 
-.demo {
-    font-size: @include flex(flex);
+/*============ 调用方式 ============ */
+.col-1 {
+  flex: 0 0 8.33%;
+  max-width: 8.333%;
+}
+.col-2 {
+  flex: 0 0 16.666%;
+  max-width: 16.666%;
+}
+/** 3, 4, ...等等 **/
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
 }
